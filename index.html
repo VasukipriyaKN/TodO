@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TO-DO</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="info">
+        <p id="time"></p>
+        <img src="./icon.gif" alt="info" width="40px">
+        <p id="info" style="display: none;">
+            Click on the task to mark it as completed <br>
+            Double click on the task to delete it <br>
+            Click on the completed task to mark it as incomplete <br>
+            Click on the clear button to delete all the tasks <br>
+        </p>
+    </div>
+    <h1>TO-DO</h1>
+    <ul>
+        <li>
+            <input type="text" name="item" id="item" placeholder="Enter an item" autofocus>
+        </li>
+    </ul>
+    <div>
+        <ul class="newItem">
+        </ul>
+    </div>
+    <button id="clear">CLEAR</button>
+    
+    <p class="footer">By Vasukipriya KN</p>
+
+
+    <script>
+        document.addEventListener('keydown', (key)=> {
+            if(key.key=='Enter' && document.getElementById('item').value!=''){
+                var item = document.getElementById('item');
+                var itemValue = item.value;
+
+                var liElement = document.createElement("li");
+                liElement.innerHTML = itemValue;
+                liElement.setAttribute('class', 'addedItem');
+                liElement.addEventListener('click', (e)=>{
+                    if (e.target.className=="addedItem") {
+                        e.target.className="checked";
+                        e.target.style.color = '#ff4242';
+                    } else {
+                        e.target.className="addedItem";
+                        e.target.style.color = '#6542ff';
+                    }
+                })
+                liElement.addEventListener('dblclick', (e)=>{
+                    e.target.remove();
+                })
+
+                var newEle = document.getElementsByClassName("newItem")[0];
+                var finalliElement = newEle.appendChild(liElement);
+
+                item.value = "";
+            }
+            else if(key.keyCode === 116){
+                key.preventDefault();
+            }
+        })
+        var clear = document.getElementById('clear');
+        clear.addEventListener('click', ()=>{
+            location.reload();
+        })
+       
+        var time = document.getElementById('time');
+        var date = new Date();
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        minutes = minutes < 10 ? '0'+minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        time.innerHTML = strTime;
+
+        var imgg = document.getElementsByTagName('img')[0];    
+        var pp = document.getElementById('info');
+        imgg.addEventListener('mouseover', ()=>{
+            pp.style.display = "block";
+        })
+        imgg.addEventListener('mouseout', ()=>{
+            pp.style.display = "none";
+        })
+    </script>
+</body>
+</html>
